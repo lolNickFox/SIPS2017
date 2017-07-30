@@ -6,10 +6,18 @@ output: html_document
 ---
 
 ```{r}
-
+#install the packages we need for this meta analysis example
 #install.packages("metafor")
+#install.packages("devtools")
+#install_github("chartgerink/osfr")
+#you need
 
+
+#load the packages we need for this meta analysis example
 library(metafor)
+library(devtools)
+library(osfr)
+
 ```
 
 
@@ -43,8 +51,8 @@ Intro to meta analyses
     Generally this means that larger studies get more weight
     Assumes you are not biasing the data you're putting in (creative removal of outliers can bias towards bigger effect sizes within these studies being used)
     
-    Tells you the average of THESE studies
-      Doesn't justify generalizing to studies outside of your sample (great for your studies on chocolate and happiness, but not the entire population)
+Tells you the average of THESE studies
+  Doesn't justify generalizing to studies outside of your sample (great for your studies on chocolate and happiness, but not the entire population)
       
 <b>Random Effects Meta-Analysis</b>
 
@@ -91,4 +99,20 @@ Now we're opening up R studio and going to walk through some examples!
 
 -----------------
 
+```{r}
+
+#Example 1 - between subjects t test
+
+example1_data <-- read.csv(file = download_file(id = "pjdus"), header = TRUE)
+#download the t test data from osf, read it in as a csv and make dataframe
+
+
+
+
+
+
+
+
+
+```
 

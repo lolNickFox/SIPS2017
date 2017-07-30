@@ -123,7 +123,15 @@ $(document).ready(function () {
 </div>
 
 
-<p><b>Single paper meta-analysis</b></p>
+<pre class="r"><code>#install.packages(&quot;metafor&quot;)
+
+library(metafor)</code></pre>
+<pre><code>## Warning: package 'metafor' was built under R version 3.4.1</code></pre>
+<pre><code>## Loading required package: Matrix</code></pre>
+<pre><code>## Loading 'metafor' package (version 2.0-0). For an overview 
+## and introduction to the package please type: help(metafor).</code></pre>
+<div id="single-paper-meta-analysis" class="section level3">
+<h3>Single paper meta-analysis</h3>
 <p>Why would you want to do this? Aggregate findings - increase power of underpowered studies</p>
 <p>Intro to meta analyses</p>
 <p>Meta-analyses assumes the effect sizes are independent one effect size per study</p>
@@ -132,11 +140,30 @@ $(document).ready(function () {
 <p>What do we use? Can get all 3 effect sizes (2 from study 2, one from study 1) Can just take the first part of study 2 and compare to study 1 (two effect sizes total)</p>
 <p><b>Fixed Effects Meta-Analysis</b></p>
 <p>Assumes that all studies have the same population effect size all variation we see from study to study is purely due to sampling error</p>
-<p>Average weighted by 1/variance of each effect size More precise effect sizes get more weight Generally this means that larger studies get more weight Assumes you are not biasing the data you’re putting in (creative removal of outliers can bias towards bigger effect sizes within these studies being used)</p>
+<p>Average weighted by 1/variance of each effect size (aka 1/SE^2) More precise effect sizes get more weight Generally this means that larger studies get more weight Assumes you are not biasing the data you’re putting in (creative removal of outliers can bias towards bigger effect sizes within these studies being used)</p>
 <pre><code>Tells you the average of THESE studies
   Doesn't justify generalizing to studies outside of your sample (great for your studies on chocolate and happiness, but not the entire population)
-  
   </code></pre>
+<p><b>Random Effects Meta-Analysis</b></p>
+<p>Allows for the possibility that you’re drawing from heterogenous population effect sizes (drawing from a normal distribution of effect sizes)</p>
+<p>Gives you some measures/tests of variability</p>
+<p>Weighting is a big more complicated, but same general principle applies 1/(SE^2 + tau<sup>2) tau</sup>2 is the population variability of the effect sizes</p>
+<p>This also allows you to generalize to studies outside of your sample (maybe not as smart if you only have 2-4 studies)</p>
+<p><b>So which one to choose?</b></p>
+<p>Theoretical considerations</p>
+<p>Power considerations</p>
+<p>Outlier considerations Fixed effects is must more sensitive to outliers (either in effect size or sample size between studies…N=100 in person study vs N=3000 MTurk study)</p>
+<p>What happens if I choose incorrectly? Fixed effects models can be too liberal - if you have any variability in your effect size distribution, you may be overconfident in your effect size estimate On the other hand, if you don’t have variation in your population effect size, using a random-effects model may be too conservative</p>
+<p><b>There are tools out there!</b></p>
+<p>Various R packages</p>
+<p>SPSS macro META</p>
+<p>Some shinyapps</p>
+<p>We’re going to use R because it’s free and we can save the code!</p>
+<p>The package is called Metafor (it’s installed above)</p>
+<hr />
+<p>Now we’re opening up R studio and going to walk through some examples!</p>
+<hr />
+</div>
 
 
 
