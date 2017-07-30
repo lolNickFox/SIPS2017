@@ -103,16 +103,35 @@ Now we're opening up R studio and going to walk through some examples!
 
 #Example 1 - between subjects t test
 
-example1_data <-- read.csv(file = download_file(id = "pjdus"), header = TRUE)
-#download the t test data from osf, read it in as a csv and make dataframe
+download_file(id = "pjdus")
+#download the t test data from osf
+
+example1_data <- read.csv("ttest_ex1.csv", header = TRUE)
+#read it in and assign a dataframe
+
+#effect size measure - standardized mean difference
+#you also need to assign the columns (mean, sd, and sample size)
+example1_data <- escalc(measure = "SMD", data = example1_data, m1i = mean1, m2i = mean2, 
+       sd1i = sd1, sd2i = sd2, n1i = n1, n2i = n2)
+
+#this is going to be calculating a cohen's d
 
 
+#fixed effects (fe method)
+fixed_example1 <- rma(data = example1_data, yi, vi, method = "FE")
+
+#view the output
+fixed_example1
 
 
+#IMPORTANT POINT - the rma function subtracts mean 2 from mean 1 (mean 1-mean2)
 
+#random effects
+random_example1 <- rma(data = example1_data, yi, vi, method = "REML")
 
+random_example1
 
-
+#is there variability outside of sampling error? check I^2 - if I^2 is not zero, then you have variability outside of sampling error.  Maybe an unexplained modarator?
 
 ```
 
