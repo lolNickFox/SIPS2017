@@ -1,0 +1,27 @@
+---
+title: "meta_analysis"
+author: "Nick_Fox"
+date: "7/30/2017"
+output: html_document
+---
+
+Single paper meta-analysis
+
+Why would you want to do this?
+  Aggregate findings - increase power of underpowered studies
+  
+Intro to meta analyses
+  
+  Meta-analyses assumes the effect sizes are independent
+    one effect size per study
+    
+  Example
+  
+  Study 1 - 1 chocolate vs 5 chocolate --> happiness
+  Study 2 - (1 chocolate vs 5 chocolate) x (crappy vs great) --> happiness
+  
+  What do we use?
+    Can get all 3 effect sizes (2 from study 2, one from study 1)
+    Can just take the first part of study 2 and compare to study 1 (two effect sizes total)
+    
+    
