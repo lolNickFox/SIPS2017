@@ -134,4 +134,73 @@ random_example1
 #is there variability outside of sampling error? check I^2 - if I^2 is not zero, then you have variability outside of sampling error.  Maybe an unexplained modarator?
 
 ```
+Both of the above examples were two sample t tests
 
+Now, let's try a correlational example
+```{r}
+#download data from osf
+download_file(id = "v2rjm")
+
+#dataframe for data
+cor_example <- read.csv("corr_example.csv", header = TRUE)
+
+#get effect size estimates
+cor_example <- escalc(measure = "ZCOR", ri = correlation, ni = N, data = cor_example)
+#ZCOR = Fisher's Z correlation
+
+random_example2_corr <- rma(data = cor_example, yi, vi, method = "REML")
+
+random_example2_corr
+
+```
+Time for more complicated designs!
+HERE BE DRAGONS
+
+Example 3
+4 studies, 2 between subjects, 2 within subjects
+
+Some things to think through
+  effect sizes need to be in the same metric
+    within and between effect sizes typically use different SD measures, so in different metrics
+    
+  Which version makes the most theoretical sense?
+    With or without correlation?
+    Raw score or change score?
+    
+  Which SD makes the most sense?
+  
+  
+Within and between subjects example
+```{r}
+
+download_file(id = "3qx5g")
+
+within_data <- read.csv("within_example.csv", header = TRUE)
+
+#turn everything into a raw score - as if they have been done as between subjects effects
+
+within_data_within <- escalc(measure = "SMCR", data = within_data[1:2, ], m1i = mean1, m2i = mean2, sd1i = sd1, sd2i = sd2, ni = sample_size, ri = correlation)
+#SMCR - standardized mean change raw - takes between subject and changes to raw between subject
+
+within_data_between <- escalc(measure = "SMD", data = within_data[3:4, ], m1i = mean1, m2i = mean2, sd1i = sd1, sd2i = sd2, n1i = n1, n2i = n2)
+
+within_data <- rbind(within_data_within, within_data_between)
+
+within_ma <- rma(data = within_data, yi, vi, method = "REML")
+
+within_ma
+
+```
+
+Remember - Garbage In, Garbage Out
+a meta analysis is only as good as what you use
+  even when you're meta analysing your own studies!
+  
+Best case - preregister studies and then meta-analyze those
+  Pre-register a prospective meta-analysis
+  
+What do you report?
+  Fixed or random
+  what effect size specification method did you use
+  how you delt with dependencies
+  effect size and CIs, measure of heterogeneity (Q)

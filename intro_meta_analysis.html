@@ -123,13 +123,21 @@ $(document).ready(function () {
 </div>
 
 
-<pre class="r"><code>#install.packages(&quot;metafor&quot;)
+<pre class="r"><code>#install the packages we need for this meta analysis example
+#install.packages(&quot;metafor&quot;)
+#install.packages(&quot;devtools&quot;)
+#install_github(&quot;chartgerink/osfr&quot;)
+#you need
 
+
+#load the packages we need for this meta analysis example
 library(metafor)</code></pre>
 <pre><code>## Warning: package 'metafor' was built under R version 3.4.1</code></pre>
 <pre><code>## Loading required package: Matrix</code></pre>
 <pre><code>## Loading 'metafor' package (version 2.0-0). For an overview 
 ## and introduction to the package please type: help(metafor).</code></pre>
+<pre class="r"><code>library(devtools)
+library(osfr)</code></pre>
 <div id="single-paper-meta-analysis" class="section level3">
 <h3>Single paper meta-analysis</h3>
 <p>Why would you want to do this? Aggregate findings - increase power of underpowered studies</p>
@@ -141,9 +149,7 @@ library(metafor)</code></pre>
 <p><b>Fixed Effects Meta-Analysis</b></p>
 <p>Assumes that all studies have the same population effect size all variation we see from study to study is purely due to sampling error</p>
 <p>Average weighted by 1/variance of each effect size (aka 1/SE^2) More precise effect sizes get more weight Generally this means that larger studies get more weight Assumes you are not biasing the data you’re putting in (creative removal of outliers can bias towards bigger effect sizes within these studies being used)</p>
-<pre><code>Tells you the average of THESE studies
-  Doesn't justify generalizing to studies outside of your sample (great for your studies on chocolate and happiness, but not the entire population)
-  </code></pre>
+<p>Tells you the average of THESE studies Doesn’t justify generalizing to studies outside of your sample (great for your studies on chocolate and happiness, but not the entire population)</p>
 <p><b>Random Effects Meta-Analysis</b></p>
 <p>Allows for the possibility that you’re drawing from heterogenous population effect sizes (drawing from a normal distribution of effect sizes)</p>
 <p>Gives you some measures/tests of variability</p>
@@ -163,6 +169,68 @@ library(metafor)</code></pre>
 <hr />
 <p>Now we’re opening up R studio and going to walk through some examples!</p>
 <hr />
+<pre class="r"><code>#Example 1 - between subjects t test
+
+download_file(id = &quot;pjdus&quot;)</code></pre>
+<pre><code>## Saving to filename: ttest_ex1.csv</code></pre>
+<pre><code>## Successfully downloaded file.</code></pre>
+<pre><code>## [1] &quot;ttest_ex1.csv&quot;</code></pre>
+<pre class="r"><code>#download the t test data from osf
+
+example1_data &lt;- read.csv(&quot;ttest_ex1.csv&quot;, header = TRUE)
+#read it in and assign a dataframe
+
+#effect size measure - standardized mean difference
+#you also need to assign the columns (mean, sd, and sample size)
+example1_data &lt;- escalc(measure = &quot;SMD&quot;, data = example1_data, m1i = mean1, m2i = mean2, 
+       sd1i = sd1, sd2i = sd2, n1i = n1, n2i = n2)
+
+#this is going to be calculating a cohen's d
+
+
+#fixed effects (fe method)
+fixed_example1 &lt;- rma(data = example1_data, yi, vi, method = &quot;FE&quot;)
+
+#view the output
+fixed_example1</code></pre>
+<pre><code>## 
+## Fixed-Effects Model (k = 4)
+## 
+## Test for Heterogeneity: 
+## Q(df = 3) = 1.3700, p-val = 0.7126
+## 
+## Model Results:
+## 
+## estimate      se     zval    pval    ci.lb    ci.ub     
+##  -0.2880  0.0800  -3.5999  0.0003  -0.4449  -0.1312  ***
+## 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+<pre class="r"><code>#IMPORTANT POINT - the rma function subtracts mean 2 from mean 1 (mean 1-mean2)
+
+#random effects
+random_example1 &lt;- rma(data = example1_data, yi, vi, method = &quot;REML&quot;)
+
+random_example1</code></pre>
+<pre><code>## 
+## Random-Effects Model (k = 4; tau^2 estimator: REML)
+## 
+## tau^2 (estimated amount of total heterogeneity): 0 (SE = 0.0209)
+## tau (square root of estimated tau^2 value):      0
+## I^2 (total heterogeneity / total variability):   0.00%
+## H^2 (total variability / sampling variability):  1.00
+## 
+## Test for Heterogeneity: 
+## Q(df = 3) = 1.3700, p-val = 0.7126
+## 
+## Model Results:
+## 
+## estimate      se     zval    pval    ci.lb    ci.ub     
+##  -0.2880  0.0800  -3.5999  0.0003  -0.4449  -0.1312  ***
+## 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+<pre class="r"><code>#is there variability outside of sampling error? check I^2 - if I^2 is not zero, then you have variability outside of sampling error.  Maybe an unexplained modarator?</code></pre>
 </div>
 
 
