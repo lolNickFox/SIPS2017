@@ -24,4 +24,18 @@ Intro to meta analyses
     Can get all 3 effect sizes (2 from study 2, one from study 1)
     Can just take the first part of study 2 and compare to study 1 (two effect sizes total)
     
+  
+  Assumes that all studies have the same population effect size
+    all variation we see from study to study is purely due to sampling error
+    
+  Average weighted by 1/variance of each effect size
+    More precise effect sizes get more weight
+    Generally this means that larger studies get more weight
+    Assumes you are not biasing the data you're putting in (creative removal of outliers can bias towards bigger effect sizes within these studies being used)
+    
+    Tells you the average of THESE studies
+      Doesn't justify generalizing to studies outside of your sample (great for your studies on chocolate and happiness, but not the entire population)
+      
+      
+    
     
